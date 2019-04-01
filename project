@@ -1,0 +1,31 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+void roundrobin();
+void information();
+void display();
+int m,Time_quanta;
+void main
+{
+    
+    printf("\n Enter the Total no. of Processes::   ");
+    scanf("%d",&m);
+    
+    int Burst_time[m],Arriva_time[m];
+    char Process_name[m];
+    
+    for(int i=0;i<m;i++)
+    {
+        fflush(stdin);
+        printf("\n\n Enter Process name:   ");
+        scanf("%s",&Process_name[i]);
+        printf("\n Enter BurstTime for Process %s = ",Process_name[i]);
+        scanf("%d",&Burst_time[i]);
+        printf("\n Enter Arrival Time for Process %s =  ",Process_name[i]);
+        scanf("%d",&Arrival_time[i]);
+        printf("\n Enter Time Quanta(Given it is = 10)::   ");
+        scanf("%d",&Time_quanta);
+    }
+    
+    
+}
