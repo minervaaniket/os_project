@@ -5,7 +5,7 @@ void roundrobin();
 void information();
 void display();
 int m,Time_quanta;
-void main
+int main()
 {
     
     printf("\n Enter the Total no. of Processes::   ");
