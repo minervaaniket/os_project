@@ -5,27 +5,88 @@ void roundrobin();
 void information();
 void display();
 int m,Time_quanta;
+  
+ int process[10],burst[10],duplicate[10];
+ int waiting[10],turnaround[10],completion[10];
+ int i,j,smallest,count=0,time,n;
+ double avg=0,tt=0,end;
+  
+  
+void information()
+    {
+            
+        printf("\n Enter the Total no. of Processes::   ");
+        scanf("%d",&n);
+
+        for(int i=0;i<n;i++)
+        {
+          printf("\nEnter arrival time of process %d : ",i+1);
+          scanf(" %d",&process[i]);
+          printf("\nEnter burst time of process %d : ",i+1);
+          scanf(" %d",&burst[i]); 
+          duplicate[i]=burst[i];
+        }
+    }
+    
+void method()
+    {
+        for(time=0;count!=n;time++)
+         {
+              
+              smallest=9;
+              for(i=0;i<n;i++)
+              {
+               if(process[i]<=time && burst[i]<burst[smallest] && burst[i]>0 )
+               smallest=i;
+              }
+              burst[smallest]--;
+              
+              //printf("\n%d => p%d",time+1,smallest);
+              
+              if(burst[smallest]==0)
+              {
+               count++;
+               end=time+1;
+               completion[smallest] = end;
+               waiting[smallest] = end - process[smallest] - duplicate[smallest];
+               turnaround[smallest] = end - process[smallest];
+               // printf("\n %d  %d   %d",smallest,wt[smallest],ttp[smallest]);
+              }
+              
+         }
+    }
+ void table()
+ {
+     printf("pid \t burst \t arrival \twaiting \tturnaround \tcompletion");
+     for(i=0;i<n;i++)
+     {
+       printf("\n %d \t   %d \t %d\t\t%d   \t\t%d\t\t%d",i+1,duplicate[i],process[i],waiting[i],turnaround[i],completion[i]);
+       avg = avg + waiting[i];
+       tt = tt + turnaround[i];
+     }
+     printf("\n  %If   %If",avg,tt);
+     printf("\n\nAverage waiting time = %lf\n",avg/n);
+     printf("Average Turnaround time = %lf",tt/n);
+     getch();
+}
+
 int main()
 {
-    
-    printf("\n Enter the Total no. of Processes::   ");
-    scanf("%d",&m);
-    
-    int Burst_time[m],Arrival_time[m];
-    char Process_name[m];
-    for(int i=0;i<m;i++)
-    {
-        fflush(stdin);
-        printf("\n\n Enter Process name:   ");
-        scanf("%s",&Process_name[i]);
-        printf("\n Enter BurstTime for Process %s = ",Process_name[i]);
-        scanf("%d",&Burst_time[i]);
-        printf("\n Enter Arrival Time for Process %s =  ",Process_name[i]);
-        scanf("%d",&Arrival_time[i]);
-        printf("\n Enter Time Quanta(Given it is = 10)::   ");
-        
-    }
-    scanf("%d",&Time_quanta);
-    
-    
+ int choice;
+ printf("Enter 1 to enter information");
+ scanf(" %d",&choice);
+ if(choice==1)
+ {
+    information();
+ }
+ 
+ 
+ 
+ printf("press 1 for table");
+ scanf(" %d",&choice);
+  if(choice==1)
+ {
+    table();
+ }
+
 }
