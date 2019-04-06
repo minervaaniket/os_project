@@ -5,12 +5,11 @@
 int main()
 {
  
- int process[10],burst[10],duplicate[10];
+ int process[10],burst[10],duplicate[10],dupl[10],waiting1[10];
  int waiting[10],turnaround[10],completion[10],start[10];
  int i,j,smallest,count=0,time,n;
  double avg=0,tt=0,end;
- printf("\nbefore sleep ");
- Sleep(3000); 
+ 
  printf("\nEnter the number of Processes: ");
  scanf("%d",&n);
  
@@ -18,6 +17,7 @@ int main()
  {
    printf("\nEnter arrival time of process %d : ",i+1);
    scanf("%d",&process[i]);
+   dupl[i]=process[i];
    process[i]=process[i]-3;
    if(process[i]<=0)
    {
@@ -28,7 +28,10 @@ int main()
    duplicate[i]=burst[i];
  }
   burst[9]=9999;
- 
+
+printf("\nCPU sleeping for 3 seconds ");
+ Sleep(3000); 
+
  //printf("time => process number");
  
  for(time=0;count!=n;time++)
@@ -39,10 +42,6 @@ int main()
    if(process[i]<=time && burst[i]<burst[smallest] && burst[i]>0 )
    smallest=i;
   }
-  if(burst[smallest]==duplicate[smallest])
-  {
-  	start[i]=time-1;
-  }
   burst[smallest]--;
   //printf("\n%d => p%d",time+1,smallest);
   if(burst[smallest]==0)
@@ -50,8 +49,9 @@ int main()
    count++;
    end=time+1;
    completion[smallest] = end;
-   waiting[smallest] = end - process[smallest] - duplicate[smallest];
-   turnaround[smallest] = end - process[smallest];
+   //waiting[smallest] = end - dupl[smallest] - duplicate[smallest];
+   waiting[smallest] = end- duplicate[smallest];
+   turnaround[smallest]=end-dupl[smallest];
    // printf("\n %d  %d   %d",smallest,wt[smallest],ttp[smallest]);
   }
  }
@@ -61,14 +61,14 @@ int main()
  	process[i]=process[i]+3;
  }
  
- printf("pid \t burst \t arrival \twaiting \tstart \tturnaround \tcompletion");
+ printf("pid \t burst \t      arrival    \twaiting    \tstart    \tturnaround    \tcompletion");
  for(i=0;i<n;i++)
  {
-   printf("\n %d \t   %d \t %d \t%d \t%d \t%d \t%d",i+1,duplicate[i],process[i],waiting[i],start[i],turnaround[i],completion[i]);
+   printf("\n %d \t   %d \t \t %d \t \t%d \t \t%d \t \t%d \t \t%d",i+1,duplicate[i],dupl[i],waiting[i]+3,process[i]+waiting[i],turnaround[i],completion[i]);
    avg = avg + waiting[i];
    tt = tt + turnaround[i];
  }
- printf("\n  %If   %If",avg,tt);
+ //printf("\n  %If   %If",avg,tt);
  printf("\n\nAverage waiting time = %lf\n",avg/n);
  printf("Average Turnaround time = %lf",tt/n);
  getch();
