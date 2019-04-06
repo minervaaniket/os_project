@@ -4,71 +4,69 @@
 #include<windows.h>
 int main()
 {
- 
- int process[10],burst[10],duplicate[10],dupl[10],waiting1[10];
- int waiting[10],turnaround[10],completion[10],start[10];
+ int a[10],b[10],x[10];
+ int waiting[10],turnaround[10],completion[10];
  int i,j,smallest,count=0,time,n;
  double avg=0,tt=0,end;
- 
  printf("\nEnter the number of Processes: ");
  scanf("%d",&n);
- 
  for(i=0;i<n;i++)
  {
    printf("\nEnter arrival time of process %d : ",i+1);
-   scanf("%d",&process[i]);
-   dupl[i]=process[i];
-   process[i]=process[i]-3;
-   if(process[i]<=0)
-   {
-   	process[i]=0;
-   }
-   printf("\nEnter burst time of process %d : ",i+1);
-   scanf("%d",&burst[i]); 	
-   duplicate[i]=burst[i];
+   scanf("%d",&a[i]);
  }
-  burst[9]=9999;
+ for(i=0;i<n;i++)
+ {
+   printf("\nEnter burst time of process %d : ",i+1);
+   scanf("%d",&b[i]);
+ }
+ for(i=0;i<n;i++)
+ x[i]=b[i];
 
-printf("\nCPU sleeping for 3 seconds ");
- Sleep(3000); 
+  b[9]=9999;
+  
+ //printf("\nCPU sleeping for 3 seconds \n");
+ //Sleep(3000);
 
- //printf("time => process number");
- 
  for(time=0;count!=n;time++)
  {
    smallest=9;
   for(i=0;i<n;i++)
   {
-   if(process[i]<=time && burst[i]<burst[smallest] && burst[i]>0 )
+   if(a[i]<=time && b[i]<b[smallest] && b[i]>0 && time>=3 )
    smallest=i;
   }
-  burst[smallest]--;
-  //printf("\n%d => p%d",time+1,smallest);
-  if(burst[smallest]==0)
+  if(time>=3)
   {
+  if(b[smallest]==x[smallest])
+  {
+  	printf("\n\t\t\t****Process %d started****\n",smallest+1);
+  }
+  b[smallest]--;
+  
+  printf("\nProcess %d executing\n",smallest+1);
+  Sleep(1000);
+  }
+  
+  if(b[smallest]==0)
+  {
+   printf("\n\t\t\t****process %d completed****\n",smallest+1);
    count++;
    end=time+1;
    completion[smallest] = end;
-   //waiting[smallest] = end - dupl[smallest] - duplicate[smallest];
-   waiting[smallest] = end- duplicate[smallest];
-   turnaround[smallest]=end-dupl[smallest];
-   // printf("\n %d  %d   %d",smallest,wt[smallest],ttp[smallest]);
+   waiting[smallest] = end - a[smallest] - x[smallest];
+   turnaround[smallest] = end - a[smallest];
   }
  }
+  
  
- for(int i=0;i<n;i++)
- {
- 	process[i]=process[i]+3;
- }
- 
- printf("pid \t burst \t      arrival    \twaiting    \tstart    \tturnaround    \tcompletion");
+ printf("\n\n\npid \t burst \t arrival\tstart \t     completion \twaiting \tturnaround ");
  for(i=0;i<n;i++)
  {
-   printf("\n %d \t   %d \t \t %d \t \t%d \t \t%d \t \t%d \t \t%d",i+1,duplicate[i],dupl[i],waiting[i]+3,process[i]+waiting[i],turnaround[i],completion[i]);
+   printf("\n %d \t   %d \t %d\t\t%d\t\t%d  \t\t%d\t\t%d",i+1,x[i],a[i],waiting[i]+a[i],completion[i],waiting[i],turnaround[i]);
    avg = avg + waiting[i];
    tt = tt + turnaround[i];
  }
- //printf("\n  %If   %If",avg,tt);
  printf("\n\nAverage waiting time = %lf\n",avg/n);
  printf("Average Turnaround time = %lf",tt/n);
  getch();
