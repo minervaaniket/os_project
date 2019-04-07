@@ -6,19 +6,38 @@ int main()
 {
  int a[10],b[10],x[10];
  int waiting[10],turnaround[10],completion[10];
- int i,j,smallest,count=0,time,n;
+ int i,j,smallest,count=0,time,n,time_quanta=10;
  double avg=0,tt=0,end;
+ correct_process_number:
  printf("\nEnter the number of Processes: ");
  scanf("%d",&n);
+ if(n<=0)
+ {
+ 	printf("\nEnter valid number of processes\n");
+ 	goto correct_process_number;
+ }
+
  for(i=0;i<n;i++)
  {
+   correct_arrivaltime:
    printf("\nEnter arrival time of process %d : ",i+1);
    scanf("%d",&a[i]);
+   if(a[i]<0)
+   {
+   	printf("\nEnter valid arrival time\n");
+   	goto correct_arrivaltime;
+   }
  }
  for(i=0;i<n;i++)
  {
+   correct_burst_time:
    printf("\nEnter burst time of process %d : ",i+1);
    scanf("%d",&b[i]);
+   if(b[i]<0)
+   {
+   	printf("\nEnter valid burst time\n");
+   	goto correct_burst_time;
+   }
  }
  for(i=0;i<n;i++)
  x[i]=b[i];
